@@ -1,14 +1,6 @@
-### Transform your Medicare Claim Statement into a 15 slide PowerPoint Presenation with charts and be promoted to CEO* 
-
-This tool will read your Medicare ACFI Claim Statement and create a structred PowerPoint presentation visualising the data with charts, which is then ready to style and present.
-Data Analysis type:
- - Uncapped Vs capped
- - Averages per domain
- - Appraisal types
- - Age of Appraisals
- 
-You may need large amounts of bribary for your I.T person to review this code and make it into an executable file for you to use :-) 
-
+## Full instructions and how-to on the main website: www.zoedekraker.com/projects
+<br>
+<br>
 
 <br>
 <br>
@@ -19,7 +11,6 @@ You may need large amounts of bribary for your I.T person to review this code an
 5. Style your presentation, delete what slides you don't need. People will be so impressed that you will be promoted to CEO no doubts. <br>
 
 
-### *  results may vary.
 <br>
 Notes for IT person: Additional Python packages used in this program<br>
   - Custom Tkinter (can be replaced with standard Python Tkinter if need be) https://github.com/TomSchimansky/CustomTkinter <br>
