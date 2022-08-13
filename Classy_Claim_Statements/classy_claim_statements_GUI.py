@@ -197,16 +197,16 @@ def get_claim_data():
             else:
                 less_than_12m.append(dates) # DR's are always < 12 months.
 
-        a1 = len(uncapped_list) #get int's to avoid error
-        a2 = len(less_than_12m) #get int's to avoid error
+        a1 = len(uncapped_list) 
+        a2 = len(less_than_12m) 
         perc_old = a2 / a1 * 100 #precent of uncapped more than 12 months old
-        b1 = len(uncapped_list) #get int's to avoid error
-        b2 = len(more_than_12m) #get int's to avoid error
+        b1 = len(uncapped_list) 
+        b2 = len(more_than_12m) 
         perc_new = b2 / b1 * 100 #precent of uncapped less than 12 months old
         less_and_more_than_12m.append(round(perc_old))
         less_and_more_than_12m.append(round(perc_new))
-        less_and_more_than_12m_qty.append(len(less_than_12m))# for QTY slide
-        less_and_more_than_12m_qty.append(len(more_than_12m))# for QTY slide
+        less_and_more_than_12m_qty.append(len(less_than_12m))
+        less_and_more_than_12m_qty.append(len(more_than_12m))
         perm = count - len(respite_list)
         perc_perm_resp.append(round((perm/count)*100))
         perc_perm_resp.append(round((len(respite_list)/count)*100))
@@ -249,7 +249,7 @@ def get_claim_data():
         
 #construct the presentation
 def create_presentation():
-    global prs #not sure why i did this
+    global prs 
     prs = Presentation()
     # order slides are in PowerPoint
     title_slide()
@@ -509,6 +509,7 @@ select_file_btn1 = customtkinter.CTkButton(mainframe,
                                             text="Select file", 
                                             command=open_claim)
 select_file_btn1.grid(row=0, column=3, pady=5, padx=10)
+
 
 # -------CHOOSE PRESENTATION SAVE LOCATION---#
 export_label = customtkinter.CTkLabel(mainframe, 
