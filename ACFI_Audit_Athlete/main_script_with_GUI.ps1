@@ -1,9 +1,7 @@
-'''
-
-ACFI Auditing Athlete - does the leg work for you. 
+<# ACFI Auditing Athlete - does the leg work for you. 
 I am not responsible for anything you do using this. Use at your own risk. 
-Never run code if you do not know what it is does.  
-'''
+Never run a program if you do not know what it is does.
+#>
 
 
 Add-Type -AssemblyName System.Windows.Forms
@@ -150,9 +148,15 @@ Write-Output "The chosen domain is $Global:domainAudit"
 #------------- Main Script--------------#
 
 # domain keywords 
-$adl_words = @('word', 'pad', 'walk')
-$beh_words = @('word', 'pad', 'walk')
-$chc_words = @('word', 'pad', 'walk')
+$adl_words = @('urine', 'wet', 'wee', 'urinary', 'incontinence', 'continence', 'faecal', 'fecal', 
+'soil', 'poo', 'smell', 'pad', 'aid', 'fall', 'falls', 'walking', 'pain', 'assisted', 'feed', 'fed',
+'food', 'eating') 
+$beh_words = @('Dementia', 'Depression', 'Anxiety', 'Anxious', 'Worried', 'confused', 'behaviour', 'yelling', 'yell',
+'hit', 'hitting', 'kick', 'kicking', 'loud', 'screaming', 'scream', 'upset', 'agitated', 'angry', 'grabbed', 
+'swearing', 'swore', 'push', 'pushing', 'disturbing', 'wandering', 'intruding', 'lost', 'wander', 'abscond')
+$chc_words = @('pain', 'pressure', 'sore', 'swelling', 'swollen', 'legs', 'oedema', 'odema', 'ankle', 'falls', 'wound',
+'injury', 'diabetes', 'catheter', 'compression', 'stockings', 'PAC', 'reposition', 'bsl', 'bgl', 'oxygen',
+'breathlessness', 'SOB')
 
 # update variable with selection
 if ($Global:domainAudit -eq 'adl')
