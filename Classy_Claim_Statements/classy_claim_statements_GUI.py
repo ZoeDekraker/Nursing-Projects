@@ -54,7 +54,7 @@ customtkinter.set_default_color_theme("blue")
 
 #----Parent app config-----#
 root = customtkinter.CTk()
-root.title("Claim Statement Wizard")
+root.title("Classy Claim Statements")
 root.geometry("540x190") #WxH
 root.resizable(False, False)
 
