@@ -9,10 +9,6 @@ Data Analysis type:
  
 You may need large amounts of bribary for your I.T person to review this code and make it into an executable file for you to use :-) 
 
-I.T person notes: Additional packages used in program
-  - Custom Tkinter (can be replaced with standard Python Tkinter if need be) https://github.com/TomSchimansky/CustomTkinter
-  - Python PPTX https://github.com/scanny/python-pptx
-  - Panadol. For the headache from my poor code structure in this script(sorry my bad).
 
 <br>
 <br>
@@ -24,3 +20,8 @@ I.T person notes: Additional packages used in program
 
 
 ### *  results may vary.
+<br>
+Notes for IT person: Additional Python packages used in this program<br>
+  - Custom Tkinter (can be replaced with standard Python Tkinter if need be) https://github.com/TomSchimansky/CustomTkinter <br>
+  - Python PPTX https://github.com/scanny/python-pptx <br>
+  - Panadol. For the headache my poor code structure gives you in this script(sorry my bad).<br>
