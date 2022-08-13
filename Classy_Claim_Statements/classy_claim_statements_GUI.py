@@ -1,3 +1,7 @@
+'''
+Program converts Medicare Claim Statement csv data into a PowerPoint 
+presentation including chart data anad saves to users computer. Opens presenation at end.
+'''
 import tkinter as tk
 from tkinter import *
 from tkinter import filedialog
