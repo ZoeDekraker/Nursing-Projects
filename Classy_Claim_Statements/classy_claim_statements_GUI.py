@@ -512,7 +512,7 @@ select_file_btn1.grid(row=0, column=3, pady=5, padx=10)
 
 # -------CHOOSE PRESENTATION SAVE LOCATION---#
 export_label = customtkinter.CTkLabel(mainframe, 
-                                            text="Save presenation to:",
+                                            text="Save presentation to:",
                                             width=100, 
                                             height=50)
                                             #fg_color=None)
