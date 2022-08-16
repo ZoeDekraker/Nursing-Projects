@@ -1,0 +1,16 @@
+<Window x:Class="PMP_GUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PMP_GUI"
+        mc:Ignorable="d"
+        Title="PMP Auditor" Height="308" Width="500">
+    <Grid Background="#454545" Margin="0,0,0,-6">
+        <Label x:Name="file_label" Content="" HorizontalAlignment="Left" Margin="29,106,0,0" VerticalAlignment="Top" Height="28" Width="243" Foreground="#FF454545" Background="#FFE8EBE7" FontSize="14"/>
+        <Button x:Name="select_file_button" Content="Select File" HorizontalAlignment="Left" Margin="340,101,0,0" VerticalAlignment="Top" Height="38" Width="118" FontSize="14" RenderTransformOrigin="0.52,2.401" Background="#FF0F70E6" Foreground="#FFF5F7F4" BorderBrush="#FF0F70E6"/>
+        <Button x:Name="start_button" Content="Start Audit" HorizontalAlignment="Center" Margin="0,200,0,0" VerticalAlignment="Top" Height="42" Width="134" FontSize="14" RenderTransformOrigin="0.516,0.505" Background="#FF0F70E6" Foreground="#FFF5F7F4" BorderBrush="#FF0F70E6"/>
+        <Label x:Name="title_label" Content="Select file to audit:" HorizontalAlignment="Center" Margin="0,24,0,0" VerticalAlignment="Top" Height="49" Width="210" Foreground="#FFF5F7F4" FontSize="24"/>
+
+    </Grid>
+</Window>
