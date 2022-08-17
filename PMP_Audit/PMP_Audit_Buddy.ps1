@@ -1,3 +1,7 @@
+# Program takes a csv file of therapy entries, groups by week of year and then by entries per week, 
+# displaying result on Out-Gridview. Relies on "Date" column header and a date format of dd/mm/yyyy. 
+
+
 Add-Type -AssemblyName PresentationFramework
 
 # function to get frequency per week in each week of year.
