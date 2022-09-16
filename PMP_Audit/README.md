@@ -1,7 +1,7 @@
 # PMP Audit Buddy
 
 ## What is it?
-A tool to help ACFI staff audit CHC 12.3, 12.4a and 12.4b charting more effecintly.
+A tool to help ACFI staff audit CHC 12.3, 12.4a and 12.4b charting more efficiently.
 
 ## Why?
 Auditing PMP charting for compliance can be time consuming and non-compliance brings the risk of ACFI downgrade at Validation and loss of funding.
