@@ -11,7 +11,7 @@ Function Get-PMP()
     Select-Object *, @{Name="Week_Number";Expression={Get-Date -UFormat %V $_.Date}} |
     Group-Object -Property Week_Number | Add-Member -MemberType AliasProperty -Name WeekOfYear -Value Name -PassThru |
     Add-Member -MemberType AliasProperty -Name TotalEntries -Value Count -PassThru | Select-Object -Property WeekOfYear, TotalEntries | 
-    Out-GridView 
+    Out-GridView -Title 'PMP Audit Results'
 }
 
 # function to select csv file to audit
