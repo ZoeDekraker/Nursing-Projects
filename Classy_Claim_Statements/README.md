@@ -1,18 +1,33 @@
-## Full instructions and how-to on the main website: www.zoedekraker.com/projects
-<br>
-<br>
+# Classy Claim Statements
 
-<br>
-<br>
-1. Download your Claim Statement form Medicare in a csv file format. <br>
-2. Select where you would like to save your new PowerPoint Presentation and name the new file.<br>
-3. Select the 'Create Presenation' button.<br>
-4. A window will pop up saying your presentation has been created. Click OK and PowerPoint will open the presenation. <br>
-5. Style your presentation, delete what slides you don't need. People will be so impressed that you will be promoted to CEO no doubts. <br>
+## What is it?
+A tool that converts a Medicare Claim Statement csv file into a 15 slide PowerPoint presentation including charts.
+
+## Why?
+Data visualisation helps to encourage data driven decisions for better operational performance and care. 
+<br/>
+Plus, who doesn't like some nice charts in a presentation done for you...? Just gotta style it to suit and impress people.
+
+## Language:
+Written in Python 3.10 
+<br/>(not very OOP, quite procedural  & slightly messy. An early coding project that does work though)
+
+2 external libraries used: 
+  - Custom Tkinter (GUI) https://github.com/TomSchimansky/CustomTkinter 
+  - Python PPTX (PowerPoint) https://github.com/scanny/python-pptx 
 
 
-<br>
-Notes for IT person: Additional Python packages used in this program<br>
-  - Custom Tkinter (can be replaced with standard Python Tkinter if need be) https://github.com/TomSchimansky/CustomTkinter <br>
-  - Python PPTX https://github.com/scanny/python-pptx <br>
-  - Panadol. For the headache my poor code structure gives you in this script(sorry my bad).<br>
+## How to use it:
+![](small_gui.png)
+
+- Download your Claim Statement from Medicare in a csv file format. Select the file.
+- Select where you would like to save your new PowerPoint Presentation and name the new file.
+- Click the 'Create Presentation' button and your presentation will be created and opened for you to style. 
+
+## Result:
+![](small_final.png)
+
+
+## Full Instructions:
+Full step by step instructions with images can be found on my main website [HERE](https://www.zoedekraker.com/projects/classyclaimstatements)
+
