@@ -7,6 +7,7 @@ Including: Some tools for use in the Healthcare setting, some I made to solve my
 ## How to navigate this repo?
 
 Each project has its own README file to describe what the project is, technology used and project notes/instructions.
+<br/> Simply click on the folder name and scroll down to read the details.
 
 A post and short description will be added to the project page on www.zoedekraker.com/projects which links to each project.
 
