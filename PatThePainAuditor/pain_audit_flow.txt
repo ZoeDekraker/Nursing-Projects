@@ -1,0 +1,70 @@
+@@statistics_TextBlock: '2'
+@@statistics_Input_File: '1'
+@@statistics_Action_Submit: '1'
+Display.ShowCustomDialog CardTemplateJson: '''{
+  \"type\": \"AdaptiveCard\",
+  \"version\": \"1.4\",
+  \"id\": \"AdaptiveCard\",
+  \"body\": [
+    {
+      \"type\": \"TextBlock\",
+      \"id\": \"Text block\",
+      \"size\": \"extraLarge\",
+      \"weight\": \"bolder\",
+      \"color\": \"good\",
+      \"isSubtle\": true,
+      \"text\": \"${Text_block_Text}\",
+      \"horizontalAlignment\": \"center\",
+      \"spacing\": \"extraLarge\",
+      \"separator\": true
+    },
+    {
+      \"type\": \"Input.File\",
+      \"id\": \"PsNoteFileInput\",
+      \"isRequired\": true,
+      \"label\": \"${PsNoteFileInput_Label}\",
+      \"spacing\": \"medium\"
+    },
+    {
+      \"type\": \"TextBlock\",
+      \"id\": \"Text block2\",
+      \"text\": \"${Text_block2_Text}\",
+      \"horizontalAlignment\": \"center\",
+      \"spacing\": \"large\"
+    }
+  ],
+  \"actions\": [
+    {
+      \"type\": \"Action.Submit\",
+      \"id\": \"Submit\",
+      \"title\": \"${Submit_Title}\"
+    }
+  ],
+  \"FormTitle\": \"${AdaptiveCard_FormTitle}\"
+}''' CustomFormData=> CustomFormData ButtonPressed=> ButtonPressed @AdaptiveCard_FormTitle: $'''Pat, your pain buddy.''' @Text_block_Text: $'''Pat the pain auditor''' @PsNoteFileInput_Label: $'''Select progress note file to audit:''' @Text_block2_Text: $'''Click to filter progress notes''' @Submit_Title: $'''Start Audit'''
+SET PNoteFilePath TO CustomFormData.PsNoteFileInput
+SET Keywords TO ['pain', 'sore', 'swelling', 'injury', 'pressure', 'hurt', 'wince', 'painful', 'grimace']
+/# Get data from progress note sheet
+#/
+Excel.LaunchExcel.LaunchAndOpenUnderExistingProcess Path: PNoteFilePath Visible: False ReadOnly: False Instance=> PNoteExcelInstance
+Excel.SetActiveWorksheet.ActivateWorksheetByIndex Instance: PNoteExcelInstance Index: 1
+Excel.GetFirstFreeColumnRow Instance: PNoteExcelInstance FirstFreeColumn=> FirstFreeColumn2 FirstFreeRow=> FirstFreeRow2
+Excel.ReadFromExcel.ReadCells Instance: PNoteExcelInstance StartColumn: $'''A''' StartRow: 1 EndColumn: FirstFreeColumn2 - 1 EndRow: FirstFreeRow2 - 1 ReadAsText: False FirstLineIsHeader: True RangeValue=> PnoteData
+# Write result headers
+Excel.LaunchExcel.Launch Visible: True LoadAddInsAndMacros: False Instance=> ResultsExcelInstance
+Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''FirstName''' Column: $'''A''' Row: 1
+Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''LastName''' Column: $'''B''' Row: 1
+Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Date''' Column: $'''E''' Row: 1
+Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''StaffName''' Column: $'''G''' Row: 1
+Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Note''' Column: $'''I''' Row: 1
+# Search through keywords in progress notes
+LOOP FOREACH Key IN Keywords
+    Excel.FindAndReplace.FindSingle Instance: PNoteExcelInstance TextToFind: Key MatchCase: False MatchEntireCellContents: False SearchBy: Excel.SearchOrder.Rows FoundColumnIndex=> FoundColumnIndex FoundRowIndex=> FoundRowIndex
+    IF FoundColumnIndex <> 0 THEN
+        Excel.ReadFromExcel.ReadCells Instance: PNoteExcelInstance StartColumn: $'''A''' StartRow: FoundRowIndex EndColumn: FoundColumnIndex EndRow: FoundRowIndex ReadAsText: False FirstLineIsHeader: False RangeValue=> MatchingNote
+        SET FoundColumnIndex TO 0
+        Excel.GetFirstFreeColumnRow Instance: ResultsExcelInstance FirstFreeColumn=> FirstFreeColumn3 FirstFreeRow=> FirstFreeRow3
+        Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: MatchingNote Column: $'''A''' Row: FirstFreeRow3
+    END
+END
+Excel.CloseExcel.Close Instance: PNoteExcelInstance
