@@ -1,0 +1,187 @@
+# Set Keyword Lists
+SET BehKWList TO ['Dementia', 'Depression', 'Anxiety', 'Anxious', 'Worried', 'confused', 'behaviour', 'yell', 'hit', 'kick', 'loud', 'scream', 'upset', 'agitated', 'angry', 'grabbed', 'swearing', 'swore', 'push', 'disturbing', 'intruding', 'lost', 'wander', 'abscond']
+SET ContKWList TO ['urine', 'wet', 'wee', 'urinary', 'continence', 'continent', 'faecal', 'fecal', 'soil', 'poo', 'smell', 'pad', 'aid']
+SET MobKWList TO ['fall', 'walk', 'trip', 'fell', 'pain', 'assisted']
+SET ClinicalKWList TO ['pain', 'pressure', 'sore', 'swelling', 'swollen', 'oedema', 'odema', 'ankle', 'fall', 'wound', 'injury', 'diabetes', 'catheter', 'compression', 'stockings', 'PAC', 'reposition', 'bsl', 'bgl', 'glucose', 'oxygen', 'breathlessness', 'SOB']
+SET MedKWList TO ['med', 'pill', 'injection', 'insulin', 'script', 'pharmacy']
+# Get user input of Progress Note file
+Display.ShowMessageDialog.ShowMessage Title: $'''Monthly Audit Mandy''' Message: $'''Hi, I am Mandy.
+Today we are going to complete an audit of your progress notes. 
+
+Step 1: Select the progress note file you wish to audit.
+Step2: Select which areas of care you would like to filter the progress notes.
+When you are ready to start, click \'OK\'!''' Icon: Display.Icon.None Buttons: Display.Buttons.OK DefaultButton: Display.DefaultButton.Button1 IsTopMost: True
+Display.SelectFileDialog.SelectFile Title: $'''Select Progress Note File''' IsTopMost: True CheckIfFileExists: True SelectedFile=> PNoteFilePath
+Excel.LaunchExcel.LaunchAndOpenUnderExistingProcess Path: PNoteFilePath Visible: False ReadOnly: True Instance=> PNoteExcelInstance
+Excel.SetActiveWorksheet.ActivateWorksheetByIndex Instance: PNoteExcelInstance Index: 1
+Excel.ReadFromExcel.ReadAllCells Instance: PNoteExcelInstance ReadAsText: False FirstLineIsHeader: True RangeValue=> PNoteData
+# User to select audit options
+@@statistics_statistics_TextBlock: '1'
+@@statistics_statistics_Input_Toggle: '5'
+@@statistics_statistics_Action_Submit: '1'
+Display.ShowCustomDialog CardTemplateJson: '''{
+  \"type\": \"AdaptiveCard\",
+  \"version\": \"1.4\",
+  \"id\": \"AdaptiveCard\",
+  \"body\": [
+    {
+      \"type\": \"TextBlock\",
+      \"id\": \"Text block\",
+      \"text\": \"${Text_block_Text}\",
+      \"spacing\": \"large\"
+    },
+    {
+      \"type\": \"Input.Toggle\",
+      \"id\": \"BehInput\",
+      \"title\": \"${BehInput_Title}\",
+      \"valueOn\": \"${BehInput_ValueOn}\",
+      \"valueOff\": \"${BehInput_ValueOff}\",
+      \"label\": \"\",
+      \"spacing\": \"medium\"
+    },
+    {
+      \"type\": \"Input.Toggle\",
+      \"id\": \"ContInput\",
+      \"title\": \"${ContInput_Title}\",
+      \"valueOn\": \"${ContInput_ValueOn}\",
+      \"valueOff\": \"${ContInput_ValueOff}\",
+      \"label\": \"\"
+    },
+    {
+      \"type\": \"Input.Toggle\",
+      \"id\": \"MobInput\",
+      \"title\": \"${MobInput_Title}\",
+      \"valueOn\": \"${MobInput_ValueOn}\",
+      \"valueOff\": \"${MobInput_ValueOff}\"
+    },
+    {
+      \"type\": \"Input.Toggle\",
+      \"id\": \"ClinicalInput\",
+      \"title\": \"${ClinicalInput_Title}\",
+      \"valueOn\": \"${ClinicalInput_ValueOn}\",
+      \"valueOff\": \"${ClinicalInput_ValueOff}\"
+    },
+    {
+      \"type\": \"Input.Toggle\",
+      \"id\": \"MedInput\",
+      \"title\": \"${MedInput_Title}\",
+      \"valueOn\": \"${MedInput_ValueOn}\",
+      \"valueOff\": \"${MedInput_ValueOff}\"
+    }
+  ],
+  \"actions\": [
+    {
+      \"type\": \"Action.Submit\",
+      \"id\": \"Submit\",
+      \"title\": \"${Submit_Title}\"
+    }
+  ]
+}''' CustomFormData=> UserChoiceData @Text_block_Text: $'''Select which areas of care to audit:''' @BehInput_Title: $'''Behaviour''' @BehInput_ValueOn: $'''True''' @BehInput_ValueOff: $'''False''' @ContInput_Title: $'''Continence''' @ContInput_ValueOn: $'''True''' @ContInput_ValueOff: $'''False''' @MobInput_Title: $'''Mobility''' @MobInput_ValueOn: $'''True''' @MobInput_ValueOff: $'''False''' @ClinicalInput_Title: $'''Clinical Care''' @ClinicalInput_ValueOn: $'''True''' @ClinicalInput_ValueOff: $'''False''' @MedInput_Title: $'''Medication''' @MedInput_ValueOn: $'''True''' @MedInput_ValueOff: $'''False''' @Submit_Title: $'''Start Audit'''
+Excel.LaunchExcel.LaunchUnderExistingProcess Visible: True Instance=> ResultsExcelInstance
+# Behaviour Audit
+IF UserChoiceData.BehInput = $'''True''' THEN
+    Excel.AddWorksheet Instance: ResultsExcelInstance Name: $'''Behaviour''' WorksheetPosition: Excel.WorksheetPosition.First
+    Excel.SetActiveWorksheet.ActivateWorksheetByName Instance: ResultsExcelInstance Name: $'''Behaviour'''
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''FirstName''' Column: $'''A''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''LastName''' Column: $'''B''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Care I.D''' Column: $'''C''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Date''' Column: $'''E''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Time''' Column: $'''F''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''StaffName''' Column: $'''G''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Position''' Column: $'''H''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Notes''' Column: $'''I''' Row: 1
+    LOOP FOREACH BehKW IN BehKWList
+        Excel.FindAndReplace.FindSingle Instance: PNoteExcelInstance TextToFind: BehKW MatchCase: False MatchEntireCellContents: False SearchBy: Excel.SearchOrder.Rows FoundColumnIndex=> FoundColumnIndex FoundRowIndex=> FoundRowIndex
+        IF FoundColumnIndex <> 0 THEN
+            Excel.ReadFromExcel.ReadCells Instance: PNoteExcelInstance StartColumn: $'''A''' StartRow: FoundRowIndex EndColumn: FoundColumnIndex EndRow: FoundRowIndex ReadAsText: False FirstLineIsHeader: False RangeValue=> MatchNote
+            Excel.GetFirstFreeColumnRow Instance: ResultsExcelInstance FirstFreeColumn=> ResultFirstFreeColumn FirstFreeRow=> ResultFirstFreeRow
+            Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: MatchNote Column: $'''A''' Row: ResultFirstFreeRow
+        END
+    END
+END
+# Continence Audit
+IF UserChoiceData.ContInput = $'''True''' THEN
+    Excel.AddWorksheet Instance: ResultsExcelInstance Name: $'''Continence''' WorksheetPosition: Excel.WorksheetPosition.Last
+    Excel.SetActiveWorksheet.ActivateWorksheetByName Instance: ResultsExcelInstance Name: $'''Continence'''
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''FirstName''' Column: $'''A''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''LastName''' Column: $'''B''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Care I.D''' Column: $'''C''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Date''' Column: $'''E''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Time''' Column: $'''F''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''StaffName''' Column: $'''G''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Position''' Column: $'''H''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Notes''' Column: $'''I''' Row: 1
+    LOOP FOREACH ContKW IN ContKWList
+        Excel.FindAndReplace.FindSingle Instance: PNoteExcelInstance TextToFind: ContKW MatchCase: False MatchEntireCellContents: False SearchBy: Excel.SearchOrder.Rows FoundColumnIndex=> FoundColumnIndex FoundRowIndex=> FoundRowIndex
+        IF FoundColumnIndex <> 0 THEN
+            Excel.ReadFromExcel.ReadCells Instance: PNoteExcelInstance StartColumn: $'''A''' StartRow: FoundRowIndex EndColumn: FoundColumnIndex EndRow: FoundRowIndex ReadAsText: False FirstLineIsHeader: False RangeValue=> MatchNote
+            Excel.GetFirstFreeColumnRow Instance: ResultsExcelInstance FirstFreeColumn=> ResultFirstFreeColumn FirstFreeRow=> ResultFirstFreeRow
+            Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: MatchNote Column: $'''A''' Row: ResultFirstFreeRow
+        END
+    END
+END
+# Mobility Audit
+IF UserChoiceData.MobInput = $'''True''' THEN
+    Excel.AddWorksheet Instance: ResultsExcelInstance Name: $'''Mobility''' WorksheetPosition: Excel.WorksheetPosition.Last
+    Excel.SetActiveWorksheet.ActivateWorksheetByName Instance: ResultsExcelInstance Name: $'''Mobility'''
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''FirstName''' Column: $'''A''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''LastName''' Column: $'''B''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Care I.D''' Column: $'''C''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Date''' Column: $'''E''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Time''' Column: $'''F''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''StaffName''' Column: $'''G''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Position''' Column: $'''H''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Notes''' Column: $'''I''' Row: 1
+    LOOP FOREACH MobKW IN MobKWList
+        Excel.FindAndReplace.FindSingle Instance: PNoteExcelInstance TextToFind: MobKW MatchCase: False MatchEntireCellContents: False SearchBy: Excel.SearchOrder.Rows FoundColumnIndex=> FoundColumnIndex FoundRowIndex=> FoundRowIndex
+        IF FoundColumnIndex <> 0 THEN
+            Excel.ReadFromExcel.ReadCells Instance: PNoteExcelInstance StartColumn: $'''A''' StartRow: FoundRowIndex EndColumn: FoundColumnIndex EndRow: FoundRowIndex ReadAsText: False FirstLineIsHeader: False RangeValue=> MatchNote
+            Excel.GetFirstFreeColumnRow Instance: ResultsExcelInstance FirstFreeColumn=> ResultFirstFreeColumn FirstFreeRow=> ResultFirstFreeRow
+            Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: MatchNote Column: $'''A''' Row: ResultFirstFreeRow
+        END
+    END
+END
+# Clinical Audit
+IF UserChoiceData.ClinicalInput = $'''True''' THEN
+    Excel.AddWorksheet Instance: ResultsExcelInstance Name: $'''Clinical''' WorksheetPosition: Excel.WorksheetPosition.Last
+    Excel.SetActiveWorksheet.ActivateWorksheetByName Instance: ResultsExcelInstance Name: $'''Clinical'''
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''FirstName''' Column: $'''A''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''LastName''' Column: $'''B''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Care I.D''' Column: $'''C''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Date''' Column: $'''E''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Time''' Column: $'''F''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''StaffName''' Column: $'''G''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Position''' Column: $'''H''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Notes''' Column: $'''I''' Row: 1
+    LOOP FOREACH ClinKW IN ClinicalKWList
+        Excel.FindAndReplace.FindSingle Instance: PNoteExcelInstance TextToFind: ClinKW MatchCase: False MatchEntireCellContents: False SearchBy: Excel.SearchOrder.Rows FoundColumnIndex=> FoundColumnIndex FoundRowIndex=> FoundRowIndex
+        IF FoundColumnIndex <> 0 THEN
+            Excel.ReadFromExcel.ReadCells Instance: PNoteExcelInstance StartColumn: $'''A''' StartRow: FoundRowIndex EndColumn: FoundColumnIndex EndRow: FoundRowIndex ReadAsText: False FirstLineIsHeader: False RangeValue=> MatchNote
+            Excel.GetFirstFreeColumnRow Instance: ResultsExcelInstance FirstFreeColumn=> ResultFirstFreeColumn FirstFreeRow=> ResultFirstFreeRow
+            Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: MatchNote Column: $'''A''' Row: ResultFirstFreeRow
+        END
+    END
+END
+# Medication Audit
+IF UserChoiceData.MedInput = $'''True''' THEN
+    Excel.AddWorksheet Instance: ResultsExcelInstance Name: $'''Medication''' WorksheetPosition: Excel.WorksheetPosition.Last
+    Excel.SetActiveWorksheet.ActivateWorksheetByName Instance: ResultsExcelInstance Name: $'''Medication'''
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''FirstName''' Column: $'''A''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''LastName''' Column: $'''B''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Care I.D''' Column: $'''C''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Date''' Column: $'''E''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Time''' Column: $'''F''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''StaffName''' Column: $'''G''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Position''' Column: $'''H''' Row: 1
+    Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: $'''Notes''' Column: $'''I''' Row: 1
+    LOOP FOREACH MedKW IN MedKWList
+        Excel.FindAndReplace.FindSingle Instance: PNoteExcelInstance TextToFind: MedKW MatchCase: False MatchEntireCellContents: False SearchBy: Excel.SearchOrder.Rows FoundColumnIndex=> FoundColumnIndex FoundRowIndex=> FoundRowIndex
+        IF FoundColumnIndex <> 0 THEN
+            Excel.ReadFromExcel.ReadCells Instance: PNoteExcelInstance StartColumn: $'''A''' StartRow: FoundRowIndex EndColumn: FoundColumnIndex EndRow: FoundRowIndex ReadAsText: False FirstLineIsHeader: False RangeValue=> MatchNote
+            Excel.GetFirstFreeColumnRow Instance: ResultsExcelInstance FirstFreeColumn=> ResultFirstFreeColumn FirstFreeRow=> ResultFirstFreeRow
+            Excel.WriteToExcel.WriteCell Instance: ResultsExcelInstance Value: MatchNote Column: $'''A''' Row: ResultFirstFreeRow
+        END
+    END
+END
+Excel.DeleteWorksheet.DeleteWorksheetByName Instance: ResultsExcelInstance Name: $'''Sheet1'''
+Excel.CloseExcel.Close Instance: PNoteExcelInstance
