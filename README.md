@@ -3,7 +3,7 @@
 
 This GitHub repo is a portfolio of projects and tools that I have developed mostly related to automating Aged Care Nursing tasks. <br/>
 A mixture of Python, PowerShell and Power Automate Desktop flows. 
-(These projects were prior to ChatGPT's release, which has changed the world and 10x'd our abilitiy to automate nursing tasks.)
+
 
 ## How to navigate this repo?
 
