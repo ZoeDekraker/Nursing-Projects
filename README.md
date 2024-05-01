@@ -1,8 +1,9 @@
 
 # What is this place?
 
-This GitHub repo is a portfolio of projects and tools that I have developed. <br/>
-Including: Some tools for use in the Healthcare setting, some I made to solve my own problems and others for fun projects.
+This GitHub repo is a portfolio of projects and tools that I have developed mostly related to automating Aged Care Nursing tasks. <br/>
+A mixture of Python, PowerShell and Power Automate Desktop flows. 
+(These projects were prior to ChatGPT's release, which has changed the world and 10x'd our abilitiy to automate nursing tasks.)
 
 ## How to navigate this repo?
 
@@ -11,6 +12,7 @@ Each project has its own README file to describe what the project is, technology
 
 
 ## Feedback is always welcome.
-Please get in touch via LinkedIn
+Please get in touch via LinkedIn.
+
 
 
